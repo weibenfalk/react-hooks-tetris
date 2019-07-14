@@ -9,13 +9,9 @@ export const useUpdate = (player, score, resetPlayer) => {
     const reDraw = _stage => {
       // First flush the stage
       const newStage = _stage.map(row =>
-        row.map(cell => {
-          if (cell[1] === 'clear') {
-            return [0, 'clear'];
-          }
-          return cell;
-        })
+        row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell))
       );
+
       // Then draw the tetromino
       player.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -28,6 +24,7 @@ export const useUpdate = (player, score, resetPlayer) => {
         });
       });
 
+      // Then check if we got some score
       if (player.collided) {
         resetPlayer();
         return score(newStage);
