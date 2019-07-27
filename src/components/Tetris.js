@@ -5,31 +5,21 @@ import { createStage, checkCollision } from '../gameHelpers';
 // Custom Hooks
 import { useInterval } from '../hooks/useInterval';
 import { usePlayer } from '../hooks/usePlayer';
-import { useUpdate } from '../hooks/useUpdate';
 import { useStage } from '../hooks/useStage';
+import { useGameStatus } from '../hooks/useGameStatus';
 
 import Stage from './Stage';
 import Display from './Display';
 
 const Tetris = () => {
-  const [level, setLevel] = useState(0);
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
-  const [stage, setStage, updateStage, sweepRows, rowsCleared] = useStage(player);
-  const [score, setScore, rows, setRows] = useUpdate(
-    player,
-    resetPlayer,
-    level,
-    updateStage,
-    sweepRows
+  const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
+  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
+    rowsCleared
   );
-  // const [score, setScore, rows, setRows, stage, setStage] = useUpdate(
-  //   player,
-  //   resetPlayer,
-  //   level
-  // );
 
   console.log('re-render');
 
